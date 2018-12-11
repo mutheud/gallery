@@ -25,7 +25,7 @@ class Location(models.Model):
         self.delete()
 
 class Image(models.Model):
-    image = models.ImageField(upload_to='images/')
+    image = models.ImageField(upload_to='image/')
     name = models.CharField(max_length=41)
     description = models.TextField()
     category = models.ForeignKey(Category)
@@ -63,6 +63,7 @@ class Image(models.Model):
 
     @classmethod
     def filter_by_location(cls,id):
+
         images = cls.objects.filter(location_id=id)
         return images
 
