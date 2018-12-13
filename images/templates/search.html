@@ -1,0 +1,107 @@
+
+{% extends 'base.html'%}
+{% block content %}
+<div class="container">
+    <br>
+    <br>
+    <br>
+    <br>
+
+    <div class="row results">
+        {% if images %}
+        <h2><b>Found {{ images|length }} results of searched category {{message}}</b></h2>
+        {% else %}
+        <h2> <b>Found 0 images for the searched category {{message}}</b></h2>
+        {% endif %}
+
+    </div>
+    <br>
+
+
+    <div class="row">
+
+        {% if images %}
+        {% for image in images %}
+        <div class="col-xs-12 col-sm-6 col-md-4">
+            <img src="{{image.image.url}}" data-toggle="modal" data-target="#exampleModalCenter{{image.id}}" class="img-responsive imagee"
+                style="height: 400px;width: 100%;position: center;size: cover;" alt="">
+            <!-- Modal -->
+            <div class="modal fade modal" id="exampleModalCenter{{image.id}}" tabindex="-1" role="dialog"
+                aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                    <div class="modal-content" style="font-family: 'Lora', serif;background: rgb(29, 29, 29);color:#d6d3cd;">>
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalCenterTitle" style="font-size:40px;"><b>{{image.name}}</b></h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <img src="{{image.image.url}}" class="img-responsive" alt="" style="height:500px;width: 100%;">
+                        </div>
+                        <div class="modal-body">
+                            <form action="">
+                                <input type="text" value="https://imgsplash.herokuapp.com{{image.image.url}}" id=""
+                                    style="width:100%;height:40px;">
+                                <br>
+                                <button type="button" class="btn btn-outline-success" style="float:right;" value="https://imgsplash.herokuapp.com{{image.image.url}}"
+                                    onclick="copyLink(this.value)">Copy Link&nbsp;<i class="fas fa-copy"></i></button>
+                            </form>
+                            <br>
+                            <br>
+                            <p style="font-size:22px;padding-right: 70px;">{{image.description}}</p>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-success" data-dismiss="modal">Close&nbsp;<i
+                                    class="fas fa-times"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <br>
+        </div>
+        <script>
+            function copyLink(value) {
+                console.log('copied link')
+                function handler(event) {
+                    event.clipboardData.setData('text/plain', value);
+                    event.preventDefault();
+                    document.removeEventListener('copy', handler, true);
+                }
+                document.addEventListener('copy', handler, true);
+                document.execCommand('copy');
+                alert("Image link has been successfully copied: ");
+            }
+
+        </script>
+        {% endfor %}
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+<style>
+    @import url('https://fonts.googleapis.com/css?family=Nunito|Oleo+Script+Swash+Caps');
+
+    .results {
+        font-family: 'Lora', serif;
+        color: #ece3d1;
+        font-size: 20px;
+    }
+
+    .imagee {
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+        transition: all 0.3s ease 0s;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+
+    .imagee:hover {
+        box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+        opacity: 0.7;
+        overflow: hidden;
+        transition: .5s ease;
+        transform: translateY(-7px);
+    }
+</style>
