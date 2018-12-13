@@ -23,7 +23,10 @@ from django.conf.urls.static import static
 urlpatterns=[
     url(r'^$',views.welcome,name = 'welcome'),
     url(r'^location/(.+)/',views.filter_by_location,name = 'location'),
+    url(r'^category/(.+)/',views.filter_by_category,name = 'category'),
+    url(r'^search/', views.search_image, name='search_image'),
     
 ]
+
 if settings.DEBUG:
     urlpatterns+= static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
