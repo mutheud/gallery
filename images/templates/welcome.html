@@ -1,72 +1,116 @@
-{%extends 'base.html'%}
-{% block content %}
-{{ block.super}}
+{%extends 'base.html'%} {% block content %} {{ block.super }}
 
 <div class="container">
+  <!-- Looping through images -->
+  {% for image_item in images %}
 
-    <!-- Looping through images   -->
-    {% for image_item in images %}
+  <div class="col-xs-12 col-sm-6 col-md-4">
+    <img
+      src="{{image_item.image.url}}"
+      data-toggle="modal"
+      data-target="#exampleModalCenter{{image_item.id}}"
+      class="img-responsive image"
+      style="height: 400px;width: 100%;position: center;size: cover;"
+      alt=""
+    />
 
-    <div class="col-xs-12 col-sm-6 col-md-4">
-        <img src="{{image_item.image.url}}" data-toggle="modal" data-target="#exampleModalCenter{{image.id}}" class="img-responsive imagee"
-            style="height: 400px;width: 100%;position: center;size: cover;" alt="">
-        <!-- Modal -->
-        <div class="modal fade modal" id="exampleModalCenter{{image.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-            aria-hidden="true">
-            <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-                <div class="modal-content" style="font-family: 'Lora', serif;background: rgb(29, 29, 29);color:#d6d3cd;">>
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalCenterTitle" style="font-size:40px;"><b>{{image_item.name}}</b></h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <img src="{{image.image.url}}" class="img-responsive" alt="" style="height:500px;width: 100%;">
-                    </div>
-                    <div class="modal-body">
-                        <form action="">
-                            <input type="text" value="{{image.image.url}}" id="" style="width:100%;height:40px;">
-                            <br>
-                            <button type="button" class="btn btn-outline-success" style="float:right;" value="{{image.image.url}}"
-                                onclick="copyLink(this.value)">Copy Link&nbsp;<i class="fas fa-copy"></i></button>
-                        </form>
-                        <br>
-                        <br>
-                        <p style="font-size:22px;padding-right: 70px;">{{image_item.description}}</p>
-                    </div>
+    <div
+      class="modal fade modal"
+      id="exampleModalCenter{{image_item.id}}"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalCenterTitle"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div
+          class="modal-content"
+          style="font-family: 'Lora', serif;background: rgb(29, 29, 29);color:#d6d3cd;"
+        >
+          <div class="modal-header">
+            <h5
+              class="modal-title"
+              id="exampleModalCenterTitle"
+              style="font-size:40px;"
+            >
+              <b>{{ image_item.name }}</b>
+            </h5>
 
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-outline-success" data-dismiss="modal">Close&nbsp;<i class="fas fa-times"></i></button>
-                    </div>
-                </div>
-            </div>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form action="">
+              <input
+                type="text"
+                value="{{image.image.url}}"
+                id=""
+                style="width:100%;height:40px;"
+              />
+              <br />
+              <img
+                src="{{image_item.image.url}}"
+                data-toggle="modal"
+                data-target="#exampleModalCenter{{image_item.id}}"
+                class="img-responsive image"
+                style="height: 400px;width: 100%;position: center;size: cover;"
+                alt=""
+              />
+              <button
+                type="button"
+                class="btn btn-outline-success"
+                style="float:right;"
+                value="{{image.image.url}}"
+                onclick="copyLink(this.value)"
+              >
+                Copy Link&nbsp;<i class="fas fa-copy"></i>
+              </button>
+            </form>
+            <br />
+            <br />
+            <p style="font-size:22px;padding-right: 70px;">
+              {{ image_item.description }}
+            </p>
+          </div>
+
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-outline-success"
+              data-dismiss="modal"
+            >
+              Close&nbsp;<i class="fas fa-times"></i>
+            </button>
+          </div>
         </div>
-        <br>
-        <br>
+      </div>
     </div>
-    <script>
-        function copyLink(value) {
-            console.log('copied link')
-            function handler(event) {
-                event.clipboardData.setData('text/plain', value);
-                event.preventDefault();
-                document.removeEventListener('copy', handler, true);
-            }
-            document.addEventListener('copy', handler, true);
-            document.execCommand('copy');
-            alert("Image link has been successfully copied: ");
-        }
+    <br />
+    <br />
+  </div>
+  <script>
+    function copyLink(value) {
+      console.log("copied link");
+      function handler(event) {
+        event.clipboardData.setData("text/plain", value);
+        event.preventDefault();
+        document.removeEventListener("copy", handler, true);
+      }
+      document.addEventListener("copy", handler, true);
+      document.execCommand("copy");
+      alert("Image link has been successfully copied: ");
+    }
+  </script>
 
-    </script>
-
-
-    {% empty %}
-    <div class="row">
-        <h2 class="text-center">There No images Items</h2>
-    </div>
-    {% endfor %}
-
+  {% empty %}
+  <div class="row"><h2 class="text-center">There No images Items</h2></div>
+  {% endfor %}
 </div>
 
 {% endblock %}
